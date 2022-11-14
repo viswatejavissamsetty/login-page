@@ -6,15 +6,15 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  Container,
   FormControl,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
+  Paper,
   Stack,
 } from "@mui/material";
-import { FastField, FieldProps, Formik } from "formik";
+import { Field, FieldProps, Formik } from "formik";
 import React, { useState } from "react";
 import * as yup from "yup";
 
@@ -41,14 +41,13 @@ function LoginPage() {
   };
 
   return (
-    <Container
+    <Paper
       sx={{
         minWidth: "100vw",
         minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "whitesmoke",
       }}
     >
       <Formik
@@ -57,12 +56,12 @@ function LoginPage() {
         validationSchema={validationSchema}
         enableReinitialize
       >
-        {({ submitForm, values }) => (
+        {({ submitForm, isValid, setTouched }) => (
           <Card elevation={5}>
             <CardHeader title="Login"></CardHeader>
             <CardContent>
               <Stack direction={"column"} spacing={2}>
-                <FastField name="username">
+                <Field name="username">
                   {({ meta: { touched, error }, field }: FieldProps) => (
                     <FormControl variant="outlined">
                       <InputLabel htmlFor="username" required>
@@ -87,8 +86,8 @@ function LoginPage() {
                       )}
                     </FormControl>
                   )}
-                </FastField>
-                <FastField name="password">
+                </Field>
+                <Field name="password">
                   {({ meta: { touched, error }, field }: FieldProps) => (
                     <FormControl variant="outlined">
                       <InputLabel htmlFor="password" required>
@@ -126,7 +125,7 @@ function LoginPage() {
                       )}
                     </FormControl>
                   )}
-                </FastField>
+                </Field>
               </Stack>
             </CardContent>
             <CardActions sx={{ justifyContent: "space-between" }}>
@@ -134,7 +133,8 @@ function LoginPage() {
               <Button
                 variant="contained"
                 onClick={() => {
-                  submitForm();
+                  if (isValid) submitForm();
+                  else setTouched({ username: true, password: true });
                 }}
               >
                 Login
@@ -143,7 +143,7 @@ function LoginPage() {
           </Card>
         )}
       </Formik>
-    </Container>
+    </Paper>
   );
 }
 

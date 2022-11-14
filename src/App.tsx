@@ -1,11 +1,18 @@
+import { createTheme, ThemeProvider } from "@mui/material";
 import "./App.css";
 import AppRouter from "./AppRouter";
 
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
+
 function App() {
   return (
-    <div className="App">
+    <ThemeProvider theme={darkTheme}>
       <AppRouter />
-    </div>
+    </ThemeProvider>
   );
 }
 
